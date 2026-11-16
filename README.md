@@ -48,10 +48,10 @@ Aplikasi web **Streamlit** yang menyajikan seluruh alur penelitian segmentasi pe
 4. Buka URL lokal yang ditampilkan (biasanya `http://localhost:8501`) dan gunakan sidebar untuk navigasi halaman.
 
 ## Upload ke GitHub
-1. Inisialisasi repo dan tambahkan file:
+1. Inisialisasi repo dan tambahkan file (jangan pernah meng-commit `.venv` atau `__pycache__`):
    ```bash
    git init
-   git add app.py utils.py requirements.txt README.md Customer_mall.csv pages
+   git add .gitignore app.py utils.py requirements.txt README.md Customer_mall.csv pages .streamlit logo_unpak.png
    git commit -m "Laporan interaktif segmentasi pelanggan K-Means"
    ```
 2. Buat repository di GitHub, lalu hubungkan dan push:
@@ -64,5 +64,13 @@ Aplikasi web **Streamlit** yang menyajikan seluruh alur penelitian segmentasi pe
 ## Deploy di Streamlit Community Cloud (share.streamlit.io)
 1. Login ke [share.streamlit.io](https://share.streamlit.io) dengan akun GitHub.
 2. Klik **New app** (atau **Create app**).
-3. Pilih **Repository**, **Branch**, dan file utama **`app.py`**.
-4. Klik **Deploy** dan tunggu proses build hingga selesai.
+3. Pilih **Repository**, **Branch** (`master`), dan file utama **`app.py`**.
+4. Buka **Advanced settings** → pilih **Python 3.12** (agar `scikit-learn==1.5.2` terpasang dari wheel).
+5. Klik **Deploy** dan tunggu proses build hingga selesai.
+6. Buka **Settings → Sharing** dan set **"This app is public and searchable"** / **"Anyone with the link can view"** agar pengunjung tidak terjebak redirect/login.
+
+### Troubleshooting: app berputar/redirect ke login
+- Pastikan sharing app sudah **public** (langkah 6 di atas).
+- Coba buka di jendela **incognito** atau browser lain, dan izinkan cookie untuk `streamlit.app`.
+- Cek **Manage app → Logs** jika build gagal; setelah mengubah dependensi, klik **Reboot** / **Clear cache**.
+- Pastikan folder `.venv` tidak ada di repo GitHub (build Cloud memakai environment-nya sendiri).
